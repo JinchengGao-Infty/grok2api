@@ -9,6 +9,8 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:  # Enables the Run workflow button
+      
 
 env:
   REGISTRY: ghcr.io
