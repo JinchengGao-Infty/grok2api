@@ -16,6 +16,7 @@ from app.core.proxy_pool import (
 )
 from app.core.exceptions import UpstreamException
 from app.services.reverse.utils.headers import build_headers
+from app.services.reverse.utils.cf_refresh import trigger_cf_refresh_on_403 as _trigger_cf_refresh_on_403
 from app.services.reverse.utils.retry import retry_on_status
 
 RATE_LIMITS_API = "https://grok.com/rest/rate-limits"
@@ -118,6 +119,8 @@ class RateLimitsReverse:
             async def _on_retry(attempt: int, status_code: int, error: Exception, delay: float):
                 if active_proxy_key and should_rotate_proxy(status_code):
                     rotate_proxy(active_proxy_key)
+                if status_code == 403:
+                    await _trigger_cf_refresh_on_403()
 
             return await retry_on_status(_do_request, on_retry=_on_retry)
 
