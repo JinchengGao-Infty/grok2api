@@ -43,6 +43,18 @@ class ModelService:
 
     MODELS = [
         ModelInfo(
+            model_id="grok-auto",
+            grok_model="",
+            model_mode="",
+            tier=Tier.BASIC,
+            cost=Cost.LOW,
+            display_name="GROK-AUTO",
+            description="Auto mode — matches Grok website behavior, lets Grok choose the best model",
+            is_image=False,
+            is_image_edit=False,
+            is_video=False,
+        ),
+        ModelInfo(
             model_id="grok-3",
             grok_model="grok-3",
             model_mode="MODEL_MODE_GROK_3",

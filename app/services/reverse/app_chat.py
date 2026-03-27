@@ -178,15 +178,16 @@ class AppChatReverse:
             "toolOverrides": tool_overrides or {},
         }
 
-        # When model is None, use modeId-based routing (e.g. "auto")
-        # instead of explicit modelName/modelMode.
-        if model is not None:
+        # When model is None or empty, use modeId-based routing ("auto")
+        # instead of explicit modelName/modelMode — matches Grok website behavior.
+        if model:
             payload["modelName"] = model
             payload["modelMode"] = mode
             payload["responseMetadata"] = {
                 "requestModelDetails": {"modelId": model},
             }
         else:
+            payload["modeId"] = "auto"
             payload["responseMetadata"] = {}
 
         if model == "grok-420":
